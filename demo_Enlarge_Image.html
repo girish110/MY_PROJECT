@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Click Enlarge</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+
+        .image-container {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .full-screen {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .full-screen img {
+            width: auto;
+            height: 100%;
+            object-fit: contain;
+        }
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .mode-toggle.dark {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <button class="mode-toggle" onclick="toggleMode()">Toggle Mode</button>
+    <div class="image-container" onclick="enlargeImage(this)">
+        <a href="bigimage.html" target="_blank">
+        <img src="My_ima/3.jpg" alt="Sample Image">
+    </a>
+    </div>
+
+    <script>
+        function enlargeImage(container) {
+            const fullScreenDiv = document.createElement('div');
+            // line 82 - creates a new <div> element to serve as the container for the enlarged image.
+
+            fullScreenDiv.classList.add('full-screen');
+            const img = container.querySelector('img').cloneNode();
+            // line 86- creates a copy of the image element inside the container. 
+            //line 86 - This ensures that the original image remains in place while a duplicate is used for full-screen display.
+            
+            fullScreenDiv.appendChild(img);
+            // line 90- adds the cloned image to the new full-screen div, allowing it to be displayed separately from the original image.
+
+            fullScreenDiv.onclick = function() {
+                document.body.removeChild(fullScreenDiv);
+            };
+
+            document.body.appendChild(fullScreenDiv);
+
+
+        }
+
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const toggleButton = document.querySelector('.mode-toggle');
+            toggleButton.classList.toggle('dark');
+            toggleButton.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+        }
+    </script>
+</body>
+</html>
